@@ -10,7 +10,7 @@ import ReactMapGL, {
   Layer,
   LayerProps
 } from "react-map-gl";
-import { Container } from "./../../../components";
+import { Container } from "components";
 import mapboxgl from "mapbox-gl";
 import {
   CityInfo,
