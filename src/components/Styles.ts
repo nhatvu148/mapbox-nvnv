@@ -11,13 +11,13 @@ export const fullscreenControlStyle = {
 };
 
 export const navStyle = {
-  top: 72,
+  top: 0, //72
   left: 0,
   padding: "10px"
 };
 
 export const scaleControlStyle = {
-  bottom: 36,
+  bottom: 0, //36
   left: 0,
   padding: "10px"
 };

@@ -3,7 +3,10 @@ import ReactMapGL, {
   Marker,
   Popup,
   NavigationControl,
-  ScaleControl
+  ScaleControl,
+  Source,
+  Layer,
+  LayerProps
 } from "react-map-gl";
 import mapboxgl from "mapbox-gl";
 import CityInfo from "components/CityInfo";
@@ -16,16 +19,56 @@ import { navStyle, scaleControlStyle } from "components/Styles";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
+const pointLayer: LayerProps = {
+  type: "circle",
+  paint: {
+    "circle-radius": 10,
+    "circle-color": "#007cbf"
+  }
+};
+
+const pointOnCircle = ({
+  center,
+  angle,
+  radius
+}: {
+  center: any;
+  angle: any;
+  radius: any;
+}) => {
+  return {
+    type: "Point",
+    coordinates: [
+      center[0] + Math.cos(angle) * radius,
+      center[1] + Math.sin(angle) * radius
+    ]
+  };
+};
+
 const App: FC = () => {
   const [viewport, setViewport] = useState({
-    latitude: 35.785495315789454,
-    longitude: 139.8958944210526,
+    latitude: 15,
+    longitude: 115,
     width: "100vw",
     height: "100vh",
-    zoom: 10
+    zoom: 3,
+    bearing: 0,
+    pitch: 0
   });
   const [selectedPark, setSelectedPark] = useState<any>(null);
   const [popupInfo, setPopupInfo] = useState<any>(null);
+
+  const [pointData, setPointData] = useState<GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry> | string>(null);
+
+  useEffect(() => {
+    const animation = window.requestAnimationFrame(() =>
+      // @ts-ignore
+      setPointData(
+        pointOnCircle({ center: [-100, 0], angle: Date.now() / 1000, radius: 20 })
+      )
+    );
+    return () => window.cancelAnimationFrame(animation);
+  });
 
   useEffect(() => {
     const listener = (e: any) => {
@@ -50,6 +93,12 @@ const App: FC = () => {
           setViewport(viewport);
         }}
       >
+        {pointData && (
+          <Source type="geojson" data={pointData}>
+            <Layer {...pointLayer} />
+          </Source>
+        )}
+
         <Pins data={CITIES} onClick={setPopupInfo} />
 
         {popupInfo && (
@@ -66,7 +115,6 @@ const App: FC = () => {
         )}
 
         {parkData.features.map((park) => (
-          // @ts-ignore
           <Marker
             key={park.properties.PARK_ID}
             latitude={park.geometry.coordinates[1]}
