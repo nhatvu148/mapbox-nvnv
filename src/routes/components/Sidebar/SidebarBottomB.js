@@ -14,7 +14,6 @@ import {
 } from "./../../../components";
 import { randomAvatar } from "./../../../utilities";
 
-import { DropdownProfile } from "../Dropdowns/DropdownProfile";
 import { FooterAuth } from "../Pages/FooterAuth";
 import { FooterText } from "../FooterText";
 
@@ -54,7 +53,6 @@ const SidebarBottomB = () => (
               </Media>
             </Media>
           </DropdownToggle>
-          <DropdownProfile />
         </UncontrolledButtonDropdown>
       </Sidebar.HideSlim>
       {/* END DESKTOP View */}
@@ -80,7 +78,6 @@ const SidebarBottomB = () => (
                 ]}
               />
             </DropdownToggle>
-            <DropdownProfile />
           </UncontrolledButtonDropdown>
         </div>
       </Sidebar.ShowSlim>

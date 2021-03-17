@@ -20,10 +20,6 @@ import {
 
 import { NavbarUser } from "layout/components/NavbarUser";
 import { NavbarNavigation } from "./NavbarNavigation";
-{
-  /* @ts-ignore */
-}
-import { DropdownProfile } from "./../Dropdowns/DropdownProfile";
 
 import { randomAvatar } from "../../../utilities";
 
@@ -88,7 +84,6 @@ const NavbarExample: FC = ({ themeColor, themeStyle, navStyle }) => {
                 ]}
               />
             </DropdownToggle>
-            <DropdownProfile right />
           </UncontrolledDropdown>
           {/* END Navbar: Dropdown */}
           {/* @ts-ignore */}
