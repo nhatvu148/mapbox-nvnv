@@ -2,41 +2,19 @@ import React, { FC, useState, useEffect } from "react";
 import ReactMapGL, {
   Marker,
   Popup,
-  GeolocateControl,
-  FullscreenControl,
   NavigationControl,
   ScaleControl
 } from "react-map-gl";
 import mapboxgl from "mapbox-gl";
-import parkData from "./data/skateboard-parks.json";
+import CityInfo from "components/CityInfo";
+import Pins from "components/Pins";
+import parkData from "data/skateboard-parks.json";
+import CITIES from "data/cities.json";
+import { navStyle, scaleControlStyle } from "components/Styles";
 
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
-
-const geolocateStyle = {
-  top: 0,
-  left: 0,
-  padding: "10px"
-};
-
-const fullscreenControlStyle = {
-  top: 36,
-  left: 0,
-  padding: "10px"
-};
-
-const navStyle = {
-  top: 72,
-  left: 0,
-  padding: "10px"
-};
-
-const scaleControlStyle = {
-  bottom: 36,
-  left: 0,
-  padding: "10px"
-};
 
 const App: FC = () => {
   const [viewport, setViewport] = useState({
@@ -46,7 +24,8 @@ const App: FC = () => {
     height: "100vh",
     zoom: 10
   });
-  const [selectedPark, setSelectedPark] = useState(null);
+  const [selectedPark, setSelectedPark] = useState<any>(null);
+  const [popupInfo, setPopupInfo] = useState<any>(null);
 
   useEffect(() => {
     const listener = (e: any) => {
@@ -71,6 +50,21 @@ const App: FC = () => {
           setViewport(viewport);
         }}
       >
+        <Pins data={CITIES} onClick={setPopupInfo} />
+
+        {popupInfo && (
+          <Popup
+            tipSize={5}
+            anchor="top"
+            longitude={popupInfo.longitude}
+            latitude={popupInfo.latitude}
+            closeOnClick={false}
+            onClose={setPopupInfo}
+          >
+            <CityInfo info={popupInfo} />
+          </Popup>
+        )}
+
         {parkData.features.map((park) => (
           // @ts-ignore
           <Marker
@@ -89,29 +83,26 @@ const App: FC = () => {
             </button>
           </Marker>
         ))}
-        <GeolocateControl style={geolocateStyle} />
-        <FullscreenControl style={fullscreenControlStyle} />
-        <NavigationControl style={navStyle} />
-        <ScaleControl style={scaleControlStyle} />
+
         {selectedPark && (
           <Popup
-            // @ts-ignore
-            latitude={selectedPark!.geometry.coordinates[1]}
-            // @ts-ignore
-            longitude={selectedPark!.geometry.coordinates[0]}
-            // @ts-ignore
+            latitude={selectedPark.geometry.coordinates[1]}
+            longitude={selectedPark.geometry.coordinates[0]}
             onClose={() => {
               setSelectedPark(null);
             }}
           >
             <div>
-              {/* @ts-ignore */}
               <h2>{selectedPark.properties.NAME}</h2>
-              {/* @ts-ignore */}
               <p>{selectedPark.properties.DESCRIPTIO}</p>
             </div>
           </Popup>
         )}
+
+        {/* <GeolocateControl style={geolocateStyle} /> */}
+        {/* <FullscreenControl style={fullscreenControlStyle} /> */}
+        <NavigationControl style={navStyle} />
+        <ScaleControl style={scaleControlStyle} />
       </ReactMapGL>
     </div>
   );
