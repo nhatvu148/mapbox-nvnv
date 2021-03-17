@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 import { Marker } from "react-map-gl";
-import Emoji from "components/Emoji";
+import { Emoji } from "./Emoji";
 import Ship from "assets/images/ship.png";
 
 const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,4.5,2,10c0,2,0.6,3.9,1.6,5.4c0,0.1,0.1,0.2,0.2,0.3
@@ -10,7 +10,7 @@ const ICON = `M20.2,15.7L20.2,15.7c1.1-1.6,1.8-3.6,1.8-5.7c0-5.6-4.5-10-10-10S2,
 const SIZE = 20;
 
 // Important for perf: the markers never change, avoid rerender when the map viewport changes
-const Pins = (props: any) => {
+const Pins = memo((props: any) => {
   const { data, onClick } = props;
 
   return data.map((city: any, index: number) => (
@@ -47,6 +47,6 @@ const Pins = (props: any) => {
       </svg> */}
     </Marker>
   ));
-};
+});
 
-export default React.memo(Pins);
+export { Pins };

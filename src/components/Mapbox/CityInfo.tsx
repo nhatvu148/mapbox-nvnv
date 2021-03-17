@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-const CityInfo = (props: any) => {
+const CityInfo = memo((props: any) => {
   const { info } = props;
   const displayName = `${info.city}, ${info.state}`;
 
@@ -18,6 +18,6 @@ const CityInfo = (props: any) => {
       <img width={240} src={info.image} />
     </div>
   );
-};
+});
 
-export default memo(CityInfo);
+export { CityInfo };

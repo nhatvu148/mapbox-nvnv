@@ -5,7 +5,7 @@ interface IProps {
   label: string;
 }
 
-const Emoji: FC<IProps> = ({ symbol, label }) => (
+export const Emoji: FC<IProps> = ({ symbol, label }) => (
   <span
     className="emoji"
     role="img"
@@ -15,4 +15,3 @@ const Emoji: FC<IProps> = ({ symbol, label }) => (
     {symbol}
   </span>
 );
-export default Emoji;
