@@ -45,7 +45,7 @@ const pointOnCircle = ({
   };
 };
 
-const App: FC = () => {
+const MapPage: FC = () => {
   const [viewport, setViewport] = useState({
     latitude: 15,
     longitude: 115,
@@ -160,4 +160,4 @@ const App: FC = () => {
   );
 };
 
-export default App;
+export default MapPage;

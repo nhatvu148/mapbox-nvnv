@@ -28,6 +28,9 @@ import { HeaderMain } from "../../components/HeaderMain";
 import { MetricVsTarget } from "../../components/Analytics/MetricVsTarget";
 import { WebsitePerformance } from "../../components/Analytics/WebsitePerformance";
 import { TinyAreaChart } from "../../components/Analytics/TinyAreaChart";
+import MapPage from "components/MapPage";
+import useComponentSize from "hooks/useComponentSize";
+import useWindowSize from "hooks/useWindowSize";
 
 import classes from "./Analytics.scss";
 
@@ -78,8 +81,14 @@ export class Analytics extends React.Component {
     const { layouts } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         <Container fluid={false}>
+          <div
+            style={{ height: "600px", position: "relative" }}
+            // ref={contentRef}
+          >
+            <MapPage />
+          </div>
           <div className="d-flex mt-3 mb-5">
             <HeaderMain title="Analytics" className="mt-0" />
             <ButtonToolbar className="ml-auto">
@@ -571,7 +580,7 @@ export class Analytics extends React.Component {
             </Grid.Col>
           </Grid.Row>
         </Grid>
-      </React.Fragment>
+      </>
     );
   }
 }
