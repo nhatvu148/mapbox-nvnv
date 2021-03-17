@@ -16,7 +16,7 @@ const LAYOUT = {
   "organic-traffic": { md: 6, h: 10 }
 };
 
-export class Analytics extends React.Component {
+export class Mapbox extends React.Component {
   state = {
     layouts: _.clone(LAYOUT)
   };

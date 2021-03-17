@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router";
 
 // ----------- Pages Imports ---------------
-import Analytics from "./Dashboards/Analytics";
+import Mapbox from "./Dashboards/Mapbox";
 import ProjectsDashboard from "./Dashboards/Projects";
 
 import Widgets from "./Widgets";
@@ -18,7 +18,7 @@ export const RoutedContent = () => {
     <Switch>
       <Redirect from="/" to="/dashboards/projects" exact />
 
-      <Route path="/dashboards/analytics" exact component={Analytics} />
+      <Route path="/dashboards/mapbox" exact component={Mapbox} />
       <Route path="/dashboards/projects" exact component={ProjectsDashboard} />
 
       <Route path="/widgets" exact component={Widgets} />

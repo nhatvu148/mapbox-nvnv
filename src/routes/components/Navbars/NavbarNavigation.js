@@ -29,8 +29,8 @@ const NavbarNavigation = ({ accent, pills, ...navbarProps }) => (
         <i className="fa fa-angle-down fa-fw ml-1"></i>
       </DropdownToggle>
       <DropdownMenu>
-        <DropdownItem tag={Link} to="/dashboards/analytics">
-          Analytics
+        <DropdownItem tag={Link} to="/dashboards/mapbox">
+          Mapbox
         </DropdownItem>
         <DropdownItem tag={Link} to="/dashboards/projects">
           Projects
