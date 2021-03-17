@@ -1,7 +1,6 @@
 import Avatar, { AvatarAddOn } from "./Avatar";
 import Card from "./Card";
 import CardHeader from "./CardHeader";
-import Checkable from "./Checkable";
 import EmptyLayout from "./EmptyLayout";
 import ExtendedDropdown from "./ExtendedDropdown";
 import FloatGrid from "./FloatGrid";
@@ -105,7 +104,6 @@ export {
   AvatarAddOn,
   Card,
   CardHeader,
-  Checkable,
   EmptyLayout,
   ExtendedDropdown,
   FloatGrid,
