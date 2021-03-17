@@ -1,6 +1,13 @@
-import React, { FC, useState, useEffect } from 'react';
-import ReactMapGL, { Marker, Popup, GeolocateControl, FullscreenControl, NavigationControl, ScaleControl } from "react-map-gl";
-import mapboxgl from "mapbox-gl"; 
+import React, { FC, useState, useEffect } from "react";
+import ReactMapGL, {
+  Marker,
+  Popup,
+  GeolocateControl,
+  FullscreenControl,
+  NavigationControl,
+  ScaleControl
+} from "react-map-gl";
+import mapboxgl from "mapbox-gl";
 import parkData from "./data/skateboard-parks.json";
 
 // @ts-ignore
@@ -10,25 +17,25 @@ mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 const geolocateStyle = {
   top: 0,
   left: 0,
-  padding: '10px'
+  padding: "10px"
 };
 
 const fullscreenControlStyle = {
   top: 36,
   left: 0,
-  padding: '10px'
+  padding: "10px"
 };
 
 const navStyle = {
   top: 72,
   left: 0,
-  padding: '10px'
+  padding: "10px"
 };
 
 const scaleControlStyle = {
   bottom: 36,
   left: 0,
-  padding: '10px'
+  padding: "10px"
 };
 
 const App: FC = () => {
@@ -46,14 +53,13 @@ const App: FC = () => {
       if (e.key === "Escape") {
         setSelectedPark(null);
       }
-    }
+    };
     window.addEventListener("keydown", listener);
 
     return () => {
       window.removeEventListener("keydown", listener);
-    }
-
-  }, [])
+    };
+  }, []);
 
   return (
     <div>
@@ -72,15 +78,18 @@ const App: FC = () => {
             latitude={park.geometry.coordinates[1]}
             longitude={park.geometry.coordinates[0]}
           >
-            <button className="marker-btn" onClick={(e) => {
-              e.preventDefault();
-              setSelectedPark(park as any);
-            }}>
+            <button
+              className="marker-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedPark(park as any);
+              }}
+            >
               <img src="/skateboarding.svg" alt="Skate Park Icon" />
             </button>
           </Marker>
         ))}
-          <GeolocateControl style={geolocateStyle} />
+        <GeolocateControl style={geolocateStyle} />
         <FullscreenControl style={fullscreenControlStyle} />
         <NavigationControl style={navStyle} />
         <ScaleControl style={scaleControlStyle} />
@@ -106,6 +115,6 @@ const App: FC = () => {
       </ReactMapGL>
     </div>
   );
-}
+};
 
 export default App;
