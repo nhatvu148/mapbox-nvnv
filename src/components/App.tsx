@@ -58,12 +58,16 @@ const App: FC = () => {
   const [selectedPark, setSelectedPark] = useState<any>(null);
   const [popupInfo, setPopupInfo] = useState<any>(null);
 
-  const [pointData, setPointData] = useState<GeoJSON.Feature<GeoJSON.Geometry> | GeoJSON.FeatureCollection<GeoJSON.Geometry> | string>(null);
+  const [pointData, setPointData] = useState<
+    | GeoJSON.Feature<GeoJSON.Geometry>
+    | GeoJSON.FeatureCollection<GeoJSON.Geometry>
+    | string
+  >("");
 
   useEffect(() => {
     const animation = window.requestAnimationFrame(() =>
-      // @ts-ignore
       setPointData(
+        // @ts-ignore
         pointOnCircle({ center: [-100, 0], angle: Date.now() / 1000, radius: 20 })
       )
     );
