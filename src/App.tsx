@@ -1,8 +1,37 @@
 import React, { FC, useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import ReactMapGL, { Marker, Popup } from "react-map-gl";
+import ReactMapGL, { Marker, Popup, GeolocateControl, FullscreenControl, NavigationControl, ScaleControl } from "react-map-gl";
+import mapboxgl from "mapbox-gl"; 
 import parkData from "./data/skateboard-parks.json";
+
+// @ts-ignore
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
+const geolocateStyle = {
+  top: 0,
+  left: 0,
+  padding: '10px'
+};
+
+const fullscreenControlStyle = {
+  top: 36,
+  left: 0,
+  padding: '10px'
+};
+
+const navStyle = {
+  top: 72,
+  left: 0,
+  padding: '10px'
+};
+
+const scaleControlStyle = {
+  bottom: 36,
+  left: 0,
+  padding: '10px'
+};
 
 const App: FC = () => {
   const [viewport, setViewport] = useState({
@@ -22,6 +51,10 @@ const App: FC = () => {
     }
     window.addEventListener("keydown", listener);
 
+    return () => {
+      window.removeEventListener("keydown", listener);
+    }
+
   }, [])
 
   return (
@@ -35,6 +68,7 @@ const App: FC = () => {
         }}
       >
         {parkData.features.map((park) => (
+          // @ts-ignore
           <Marker
             key={park.properties.PARK_ID}
             latitude={park.geometry.coordinates[1]}
@@ -48,6 +82,10 @@ const App: FC = () => {
             </button>
           </Marker>
         ))}
+          <GeolocateControl style={geolocateStyle} />
+        <FullscreenControl style={fullscreenControlStyle} />
+        <NavigationControl style={navStyle} />
+        <ScaleControl style={scaleControlStyle} />
         {selectedPark && (
           <Popup
             // @ts-ignore
