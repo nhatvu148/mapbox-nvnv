@@ -4,8 +4,6 @@ import CardHeader from "./CardHeader";
 import EmptyLayout from "./EmptyLayout";
 import ExtendedDropdown from "./ExtendedDropdown";
 import FloatGrid from "./FloatGrid";
-import IconWithBadge from "./IconWithBadge";
-import InputGroupAddon from "./InputGroupAddon";
 import Layout, {
   withPageConfig,
   setupPage,
@@ -107,8 +105,6 @@ export {
   EmptyLayout,
   ExtendedDropdown,
   FloatGrid,
-  IconWithBadge,
-  InputGroupAddon,
   Layout,
   Nav,
   Navbar,
