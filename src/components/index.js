@@ -1,9 +1,6 @@
 import Avatar, { AvatarAddOn } from "./Avatar";
-import Card from "./Card";
-import CardHeader from "./CardHeader";
 import EmptyLayout from "./EmptyLayout";
 import ExtendedDropdown from "./ExtendedDropdown";
-import FloatGrid from "./FloatGrid";
 import Layout, {
   withPageConfig,
   setupPage,
@@ -100,11 +97,8 @@ export {
   //App,
   Avatar,
   AvatarAddOn,
-  Card,
-  CardHeader,
   EmptyLayout,
   ExtendedDropdown,
-  FloatGrid,
   Layout,
   Nav,
   Navbar,
