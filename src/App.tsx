@@ -1,6 +1,4 @@
 import React, { FC, useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
 import ReactMapGL, { Marker, Popup, GeolocateControl, FullscreenControl, NavigationControl, ScaleControl } from "react-map-gl";
 import mapboxgl from "mapbox-gl"; 
 import parkData from "./data/skateboard-parks.json";
