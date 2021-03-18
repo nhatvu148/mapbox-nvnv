@@ -13,7 +13,7 @@ import {
 import { randomAvatar } from "utilities";
 import NVNV from "assets/images/NVNV.jpg";
 
-const avatarImg = NVNV // randomAvatar();
+const avatarImg = NVNV; // randomAvatar();
 
 const SidebarTopA = () => (
   <React.Fragment>

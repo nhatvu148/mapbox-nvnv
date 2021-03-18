@@ -19,7 +19,7 @@ const Pins = memo((props: any) => {
       longitude={city.longitude}
       latitude={city.latitude}
     >
-      <img
+      {/* <img
         src={Ship}
         width="30"
         alt="Ship"
@@ -30,9 +30,9 @@ const Pins = memo((props: any) => {
           stroke: "none",
           transform: `translate(${-SIZE / 2}px,${-SIZE}px)`
         }}
-      />
+      /> */}
       {/* <Emoji symbol="🚢" label="ship"/> */}
-      {/* <svg
+      <svg
         height={SIZE}
         viewBox="0 0 24 24"
         style={{
@@ -44,7 +44,7 @@ const Pins = memo((props: any) => {
         onClick={() => onClick(city)}
       >
         <path d={ICON} />
-      </svg> */}
+      </svg>
     </Marker>
   ));
 });

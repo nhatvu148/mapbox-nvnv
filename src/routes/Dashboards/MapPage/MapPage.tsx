@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useRef } from "react";
+import React, { FC, useState, useEffect, useRef, useCallback } from "react";
 import ReactMapGL, {
   Marker,
   Popup,
@@ -8,9 +8,10 @@ import ReactMapGL, {
   ScaleControl,
   Source,
   Layer,
-  LayerProps
+  LayerProps,
+  FlyToInterpolator
 } from "react-map-gl";
-import { Container } from "components";
+import { Radio, RadioChangeEvent, Button } from "antd";
 import mapboxgl from "mapbox-gl";
 import {
   CityInfo,
@@ -56,15 +57,17 @@ const pointOnCircle = ({
 };
 
 export const MapPage: FC = (props: any) => {
-  const [viewport, setViewport] = useState({
+  const [viewport, setViewport] = useState<any>({
     latitude: 15,
     longitude: 115,
-    zoom: 3,
+    zoom: 2.5,
     bearing: 0,
     pitch: 0
   });
   const [selectedPark, setSelectedPark] = useState<any>(null);
   const [popupInfo, setPopupInfo] = useState<any>(null);
+  const [value, setValue] = useState(1);
+  const [mapStyle, setMapStyle] = useState(false);
   const contentRef = useRef(null);
   const { width: contentWidth, height: contentHeight } = useComponentSize(
     contentRef
@@ -107,21 +110,41 @@ export const MapPage: FC = (props: any) => {
     console.log(contentHeight);
   }, [contentWidth, contentHeight, windowWidth, windowHeight]);
 
-  function redrawMap() {
+  const redrawMap = () => {
     setViewport({
       ...viewport
     });
-  }
+  };
+
+  const onChange = (e: RadioChangeEvent) => {
+    console.log("radio checked", e.target.value);
+    setValue(e.target.value);
+    onSelectCity(CITIES[Number(e.target.value)]);
+  };
+
+  const onSelectCity = useCallback(({ longitude, latitude }) => {
+    setViewport({
+      longitude,
+      latitude,
+      zoom: 11,
+      transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+      transitionDuration: "auto"
+    });
+  }, []);
 
   return (
-    <Container>
+    <>
       <div style={{ height: "500px", position: "relative" }} ref={contentRef}>
         <ReactMapGL
           {...viewport}
           width="100%"
           height="100%"
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-          mapStyle="mapbox://styles/nhatvu148/ckmcqd67v5zmn17o3ig6y5ykw"
+          mapStyle={
+            mapStyle
+              ? "mapbox://styles/nhatvu148/ckmcqd67v5zmn17o3ig6y5ykw"
+              : "mapbox://styles/mapbox/streets-v11"
+          }
           onViewportChange={(viewport: any) => {
             setViewport(viewport);
           }}
@@ -186,6 +209,29 @@ export const MapPage: FC = (props: any) => {
           <ScaleControl style={scaleControlStyle} />
         </ReactMapGL>
       </div>
-    </Container>
+
+      <Radio.Group
+        onChange={onChange}
+        value={value}
+        defaultValue="0"
+        buttonStyle="solid"
+      >
+        {CITIES.map((place, index) => (
+          <Radio.Button key={index} value={index}>
+            {place.city}
+            {", "}
+            {place.state}
+          </Radio.Button>
+        ))}
+      </Radio.Group>
+
+      <Button
+        onClick={() => {
+          setMapStyle((prev) => !prev);
+        }}
+      >
+        Change Map Style
+      </Button>
+    </>
   );
 };

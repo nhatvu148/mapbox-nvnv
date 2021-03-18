@@ -4,7 +4,7 @@ const FooterText: FC = (props) => (
   <React.Fragment>
     <h5 style={{ fontSize: 12 }}>© 2021 All Rights Reserved.</h5>
     <h5 style={{ fontSize: 12 }}>
-      Created by{" "}
+      Developed by{" "}
       <a
         href="https://github.com/nhatvu148"
         target="_blank"
