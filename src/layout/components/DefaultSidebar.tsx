@@ -28,7 +28,7 @@ export const DefaultSidebar: FC = () => (
       <Sidebar.Section>
         <Link to="/" className="sidebar__brand">
           {/* @ts-ignore */}
-          <LogoThemed checkBackground />
+          {/* <LogoThemed checkBackground /> */}
         </Link>
         {/* @ts-ignore */}
       </Sidebar.Section>

@@ -9,10 +9,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem
-} from "./../../../components";
-import { randomAvatar } from "./../../../utilities";
+} from "components";
+import { randomAvatar } from "utilities";
+import NVNV from "assets/images/NVNV.jpg";
 
-const avatarImg = randomAvatar();
+const avatarImg = NVNV // randomAvatar();
 
 const SidebarTopA = () => (
   <React.Fragment>
