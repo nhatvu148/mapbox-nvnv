@@ -58,7 +58,7 @@ const pointOnCircle = ({
   };
 };
 
-export const MapPage: FC = (props: any) => {
+export const MapPage: FC = () => {
   const [viewport, setViewport] = useState<any>({
     latitude: 15,
     longitude: 115,
@@ -66,7 +66,6 @@ export const MapPage: FC = (props: any) => {
     bearing: 0,
     pitch: 0
   });
-  const [selectedPark, setSelectedPark] = useState<any>(null);
   const [popupInfo, setPopupInfo] = useState<any>(null);
   const [value, setValue] = useState(1);
   const [mapStyle, setMapStyle] = useState(1);
@@ -80,11 +79,8 @@ export const MapPage: FC = (props: any) => {
     "quoteData", getQuoteData,
     {
       staleTime: 0,
-      onSuccess: () => {
-        console.log("Hello");
-      },
       onError: () => {
-        console.log("Error");
+        console.log("Error Fetching Quotes");
       }
     }
   );
@@ -108,7 +104,7 @@ export const MapPage: FC = (props: any) => {
   useEffect(() => {
     const listener = (e: any) => {
       if (e.key === "Escape") {
-        setSelectedPark(null);
+        setPopupInfo(null);
       }
     };
     window.addEventListener("keydown", listener);
@@ -121,8 +117,6 @@ export const MapPage: FC = (props: any) => {
   // redraw if the map's parent container or window changes size
   useEffect(() => {
     redrawMap();
-    console.log(contentWidth);
-    console.log(contentHeight);
   }, [contentWidth, contentHeight, windowWidth, windowHeight]);
 
   const redrawMap = () => {
@@ -186,39 +180,6 @@ export const MapPage: FC = (props: any) => {
               onClose={setPopupInfo}
             >
               <CityInfo info={popupInfo} />
-            </Popup>
-          )}
-
-          {parkData.features.map((park) => (
-            <Marker
-              key={park.properties.PARK_ID}
-              latitude={park.geometry.coordinates[1]}
-              longitude={park.geometry.coordinates[0]}
-            >
-              <button
-                className="marker-btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setSelectedPark(park as any);
-                }}
-              >
-                <img src="/skateboarding.svg" alt="Skate Park Icon" />
-              </button>
-            </Marker>
-          ))}
-
-          {selectedPark && (
-            <Popup
-              latitude={selectedPark.geometry.coordinates[1]}
-              longitude={selectedPark.geometry.coordinates[0]}
-              onClose={() => {
-                setSelectedPark(null);
-              }}
-            >
-              <div>
-                <h2>{selectedPark.properties.NAME}</h2>
-                <p>{selectedPark.properties.DESCRIPTIO}</p>
-              </div>
             </Popup>
           )}
 
