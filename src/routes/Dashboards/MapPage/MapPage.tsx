@@ -23,6 +23,8 @@ import {
 } from "components/Mapbox";
 import parkData from "data/skateboard-parks.json";
 import CITIES from "data/cities.json";
+import { useQuery } from "react-query";
+import { getQuoteData } from "api/myApi";
 import useComponentSize from "hooks/useComponentSize";
 import useWindowSize from "hooks/useWindowSize";
 
@@ -73,6 +75,19 @@ export const MapPage: FC = (props: any) => {
     contentRef
   );
   const { width: windowWidth, height: windowHeight } = useWindowSize();
+
+  const { data } = useQuery(
+    "quoteData", getQuoteData,
+    {
+      staleTime: 0,
+      onSuccess: () => {
+        console.log("Hello");
+      },
+      onError: () => {
+        console.log("Error");
+      }
+    }
+  );
 
   const [pointData, setPointData] = useState<
     | GeoJSON.Feature<GeoJSON.Geometry>
@@ -144,10 +159,10 @@ export const MapPage: FC = (props: any) => {
             mapStyle === 1
               ? "mapbox://styles/nhatvu148/ckmcqd67v5zmn17o3ig6y5ykw"
               : mapStyle === 2
-              ? "mapbox://styles/mapbox/streets-v11"
-              : mapStyle === 3
-              ? "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
-              : "mapbox://styles/nhatvu148/ckmf0vdp2hj0817lkwm8z7a50"
+                ? "mapbox://styles/mapbox/streets-v11"
+                : mapStyle === 3
+                  ? "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
+                  : "mapbox://styles/nhatvu148/ckmf0vdp2hj0817lkwm8z7a50"
           }
           onViewportChange={(viewport: any) => {
             setViewport(viewport);
@@ -238,6 +253,7 @@ export const MapPage: FC = (props: any) => {
       >
         Change Map Style
       </Button>
+      {data && <h5>Quote of the day: "{data.data.content}"</h5>}
     </>
   );
 };
