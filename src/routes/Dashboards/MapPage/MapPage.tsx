@@ -1,14 +1,10 @@
 import React, { FC, useState, useEffect, useRef, useCallback } from "react";
 import ReactMapGL, {
-  Marker,
   Popup,
   NavigationControl,
   GeolocateControl,
   FullscreenControl,
   ScaleControl,
-  Source,
-  Layer,
-  LayerProps,
   FlyToInterpolator
 } from "react-map-gl";
 import { Radio, RadioChangeEvent, Button } from "antd";
@@ -21,7 +17,6 @@ import {
   navStyle,
   scaleControlStyle
 } from "components/Mapbox";
-import parkData from "data/skateboard-parks.json";
 import CITIES from "data/cities.json";
 import { useQuery } from "react-query";
 import { getQuoteData } from "api/myApi";
@@ -32,32 +27,6 @@ import useWindowSize from "hooks/useWindowSize";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
-const pointLayer: LayerProps = {
-  type: "circle",
-  paint: {
-    "circle-radius": 10,
-    "circle-color": "#007cbf"
-  }
-};
-
-const pointOnCircle = ({
-  center,
-  angle,
-  radius
-}: {
-  center: any;
-  angle: any;
-  radius: any;
-}) => {
-  return {
-    type: "Point",
-    coordinates: [
-      center[0] + Math.cos(angle) * radius,
-      center[1] + Math.sin(angle) * radius
-    ]
-  };
-};
-
 export const MapPage: FC = () => {
   const [viewport, setViewport] = useState<any>({
     latitude: 15,
@@ -67,38 +36,19 @@ export const MapPage: FC = () => {
     pitch: 0
   });
   const [popupInfo, setPopupInfo] = useState<any>(null);
-  const [value, setValue] = useState(1);
-  const [mapStyle, setMapStyle] = useState(1);
+  const [value, setValue] = useState<number>(1);
+  const [mapStyle, setMapStyle] = useState<number>(1);
   const contentRef = useRef(null);
   const { width: contentWidth, height: contentHeight } = useComponentSize(
     contentRef
   );
   const { width: windowWidth, height: windowHeight } = useWindowSize();
 
-  const { data } = useQuery(
-    "quoteData", getQuoteData,
-    {
-      staleTime: 0,
-      onError: () => {
-        console.log("Error Fetching Quotes");
-      }
+  const { data } = useQuery("quoteData", getQuoteData, {
+    staleTime: 0,
+    onError: () => {
+      console.log("Error Fetching Quotes");
     }
-  );
-
-  const [pointData, setPointData] = useState<
-    | GeoJSON.Feature<GeoJSON.Geometry>
-    | GeoJSON.FeatureCollection<GeoJSON.Geometry>
-    | string
-  >("");
-
-  useEffect(() => {
-    const animation = window.requestAnimationFrame(() =>
-      setPointData(
-        // @ts-ignore
-        pointOnCircle({ center: [-100, 0], angle: Date.now() / 1000, radius: 20 })
-      )
-    );
-    return () => window.cancelAnimationFrame(animation);
   });
 
   useEffect(() => {
@@ -125,7 +75,7 @@ export const MapPage: FC = () => {
     });
   };
 
-  const onChange = (e: RadioChangeEvent) => {
+  const onRadioChange = (e: RadioChangeEvent) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
     onSelectCity(CITIES[Number(e.target.value)]);
@@ -153,21 +103,15 @@ export const MapPage: FC = () => {
             mapStyle === 1
               ? "mapbox://styles/nhatvu148/ckmcqd67v5zmn17o3ig6y5ykw"
               : mapStyle === 2
-                ? "mapbox://styles/mapbox/streets-v11"
-                : mapStyle === 3
-                  ? "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
-                  : "mapbox://styles/nhatvu148/ckmf0vdp2hj0817lkwm8z7a50"
+              ? "mapbox://styles/mapbox/streets-v11"
+              : mapStyle === 3
+              ? "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
+              : "mapbox://styles/nhatvu148/ckmf0vdp2hj0817lkwm8z7a50"
           }
           onViewportChange={(viewport: any) => {
             setViewport(viewport);
           }}
         >
-          {pointData && (
-            <Source type="geojson" data={pointData}>
-              <Layer {...pointLayer} />
-            </Source>
-          )}
-
           <Pins data={CITIES} onClick={setPopupInfo} />
 
           {popupInfo && (
@@ -191,7 +135,7 @@ export const MapPage: FC = () => {
       </div>
 
       <Radio.Group
-        onChange={onChange}
+        onChange={onRadioChange}
         value={value}
         defaultValue="0"
         buttonStyle="solid"
@@ -207,7 +151,31 @@ export const MapPage: FC = () => {
 
       <Button
         onClick={() => {
-          setMapStyle((prev) => {
+          setValue((prev: number) => {
+            let nextVal = prev === 0 ? CITIES.length - 1 : prev - 1;
+            onSelectCity(CITIES[nextVal]);
+            return nextVal;
+          });
+        }}
+      >
+        Previous City
+      </Button>
+
+      <Button
+        onClick={() => {
+          setValue((prev: number) => {
+            let nextVal = prev === CITIES.length - 1 ? 0 : prev + 1;
+            onSelectCity(CITIES[nextVal]);
+            return nextVal;
+          });
+        }}
+      >
+        Next City
+      </Button>
+
+      <Button
+        onClick={() => {
+          setMapStyle((prev: number) => {
             return prev === 4 ? 1 : prev + 1;
           });
         }}

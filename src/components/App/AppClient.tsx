@@ -3,12 +3,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import AppLayout from "layout/default";
 import { RoutedContent } from "routes";
-import { QueryClient, QueryClientProvider } from 'react-query'
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const basePath = process.env.BASE_PATH || "/";
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 const AppClient = () => {
   return (
