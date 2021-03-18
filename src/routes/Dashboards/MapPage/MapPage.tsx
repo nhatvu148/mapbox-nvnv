@@ -67,7 +67,7 @@ export const MapPage: FC = (props: any) => {
   const [selectedPark, setSelectedPark] = useState<any>(null);
   const [popupInfo, setPopupInfo] = useState<any>(null);
   const [value, setValue] = useState(1);
-  const [mapStyle, setMapStyle] = useState(false);
+  const [mapStyle, setMapStyle] = useState(1);
   const contentRef = useRef(null);
   const { width: contentWidth, height: contentHeight } = useComponentSize(
     contentRef
@@ -141,9 +141,13 @@ export const MapPage: FC = (props: any) => {
           height="100%"
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
           mapStyle={
-            mapStyle
+            mapStyle === 1
               ? "mapbox://styles/nhatvu148/ckmcqd67v5zmn17o3ig6y5ykw"
-              : "mapbox://styles/mapbox/streets-v11"
+              : mapStyle === 2
+              ? "mapbox://styles/mapbox/streets-v11"
+              : mapStyle === 3
+              ? "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
+              : "mapbox://styles/nhatvu148/ckmf0vdp2hj0817lkwm8z7a50"
           }
           onViewportChange={(viewport: any) => {
             setViewport(viewport);
@@ -227,7 +231,9 @@ export const MapPage: FC = (props: any) => {
 
       <Button
         onClick={() => {
-          setMapStyle((prev) => !prev);
+          setMapStyle((prev) => {
+            return prev === 4 ? 1 : prev + 1;
+          });
         }}
       >
         Change Map Style
