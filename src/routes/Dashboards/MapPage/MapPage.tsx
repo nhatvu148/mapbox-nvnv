@@ -104,9 +104,7 @@ export const MapPage: FC = () => {
               ? "mapbox://styles/nhatvu148/ckmcqd67v5zmn17o3ig6y5ykw"
               : mapStyle === 2
               ? "mapbox://styles/mapbox/streets-v11"
-              : mapStyle === 3
-              ? "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
-              : "mapbox://styles/nhatvu148/ckmf0vdp2hj0817lkwm8z7a50"
+              : "mapbox://styles/nhatvu148/ckmcptq458h9717le4rrs1t5u"
           }
           onViewportChange={(viewport: any) => {
             setViewport(viewport);
@@ -176,7 +174,7 @@ export const MapPage: FC = () => {
       <Button
         onClick={() => {
           setMapStyle((prev: number) => {
-            return prev === 4 ? 1 : prev + 1;
+            return prev === 3 ? 1 : prev + 1;
           });
         }}
       >

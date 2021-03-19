@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  mapbox:
+    container_name: mapbox
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - /app/node_modules
+      - ./:/app
+    networks:
+      - net
+  nginx1:
+    container_name: nginx1
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    depends_on:
+      - mapbox
+    ports:
+      - "8081:80"
+    networks:
+      - net
+networks:
+  net:

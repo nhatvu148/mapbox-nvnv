@@ -1,6 +1,5 @@
 {
   "name": "mapbox-nvnv",
-  "homepage": "https://nhatvu148.github.io/mapbox-nvnv",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
